@@ -17,8 +17,11 @@ class HuffmanTree:
 
     def get_node(self, char):
         return self.root.get_node_aux(char)
+    
+    def get_code(self):
+        return self.root.get_code_aux()
 
-    def get_code(self, char):
+    def get_one_code(self, char):
         return self.root.get_code_aux(char)
     
     def get_frequency(self, char):
@@ -43,10 +46,10 @@ class HuffmanNode:
 
     def __str__(self, depth=0):
         s = f"\"{self.char}\" : {str(self.frequency)}\n"
-        if self.left is not None:
-            s += f"\t"*(depth+1)+f"{self.left.__str__(depth=depth+1)}"
         if self.right is not None:
-            s += f"\t"*(depth+1)+f"{self.right.__str__(depth=depth+1)}"
+            s += f"    "*(depth+1)+f"{self.right.__str__(depth=depth+1)}"
+        if self.left is not None:
+            s += f"    "*(depth+1)+f"{self.left.__str__(depth=depth+1)}"
         return s
 
     def is_leaf(self):
@@ -75,7 +78,7 @@ class HuffmanNode:
                 return r
         return None
     
-    def get_code_aux(self, char):
+    def get_one_code_aux(self, char):
         if self.is_leaf() and self.char == char:
             return ""
         if self.left is not None:
@@ -88,6 +91,17 @@ class HuffmanNode:
                 return "1" + r
         return None
 
+    def get_code_aux(self):
+        if self.is_leaf():
+            return {self.char: ""}
+        code = {}
+        if self.left is not None:
+            for char, c in self.left.get_code_aux().items():
+                code[char] = "0" + c
+        if self.right is not None:
+            for char, c in self.right.get_code_aux().items():
+                code[char] = "1" + c
+        return code
 
 
 if __name__ == "__main__":
@@ -106,7 +120,4 @@ if __name__ == "__main__":
     i3.right = e4
     tree = HuffmanTree(i1)
     print(tree)
-    print((tree.get_code('a')))
-    print((tree.get_code('b')))
-    print((tree.get_code('c')))
-    print((tree.get_code('d')))
+    print(tree.get_code())
