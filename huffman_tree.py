@@ -34,7 +34,7 @@ class HuffmanNode:
     # to be able to use PriorityQueue and have a minimal variance in Huffman code
     def __lt__(self, other):
         if self.char is None:
-            return False
+            return True
 
     def __init__(self, left, right, char, frequency):
         self.id = HuffmanNode.node_id
