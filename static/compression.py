@@ -55,7 +55,6 @@ def build_tree(freq):
                     else:
                         right = i2[1]
                         q_leaves.put(l1)
-        print(left.frequency, left.char, right.frequency, right.char)
         q_internal.put((left.frequency + right.frequency, HuffmanNode(left, right, None, left.frequency + right.frequency)))
     return HuffmanTree(q_internal.get()[1])
 
